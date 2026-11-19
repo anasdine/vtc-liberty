@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vtc-liberty.fr/sitemap.xml
