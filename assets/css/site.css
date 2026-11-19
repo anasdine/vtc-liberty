@@ -63,6 +63,7 @@ p{margin:0 0 1em}
 .hero p.lead{margin-bottom:26px}
 .cta{display:flex;flex-wrap:wrap;gap:12px}
 .cta .btn{flex:1 1 200px}
+@media (max-width:899px){.cta .desk{display:none}.cta .cta-devis{background:linear-gradient(180deg,#e3c78e,#bf9550);color:#15130c;border-color:transparent}.cta .cta-devis:hover{color:#15130c}}
 .facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin:28px 0 0;padding:0;list-style:none;color:var(--ink-soft);font-size:.95rem}
 .facts li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold-deep);margin:0 10px 2px 0}
 @media (min-width:900px){
@@ -94,7 +95,8 @@ p{margin:0 0 1em}
 
 /* Flotte */
 .fleet{position:relative;overflow:hidden}
-.fleet .statue{position:absolute;right:-30px;bottom:-20px;width:210px;opacity:.07;pointer-events:none}
+.fleet .statue{position:absolute;right:-60px;bottom:-30px;width:210px;opacity:.06;pointer-events:none}
+.fleet .wrap{position:relative}
 .badge-list{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0;padding:0;list-style:none}
 .badge-list li{border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.92rem;color:var(--ink-soft)}
 
