@@ -1,8 +1,44 @@
-# Déploiement de vtc-liberty.fr sur Infomaniak
+# Déploiement de vtc-liberty.fr
 
-Site statique (HTML, CSS, un peu de JS), sans PHP ni base de données. Rien n'est en ligne tant que la garde refuse.
+Site statique (HTML, CSS, un peu de JS), sans PHP ni base de données : 19 fichiers publiés, 343 943 octets (336 Kio) mesurés le 22-11.
 
-## Sources officielles lues (22-11-2026)
+## ⚠ À lire d'abord : fusionner dans `main` = publier
+Le dépôt `anasdine/vtc-liberty` est **public** et **GitHub Pages** sert la branche `main` (racine) sur https://vtc-liberty.fr
+(constructeur « legacy », c'est-à-dire Jekyll ; domaine porté par `CNAME` ; HTTPS imposé). **Toute fusion dans `main` est en ligne
+en quelques minutes.** Aucune fusion sans l'accord du pilote, et jamais tant que la garde refuse.
+
+## Voie 1 (en place, gratuite) : GitHub Pages
+| | |
+|---|---|
+| Coût | 0 € (Pages est gratuit pour un dépôt public) |
+| Domaine | `vtc-liberty.fr`, déjà enregistré chez Infomaniak (RDAP public https://rdap.nic.fr/domain/vtc-liberty.fr : depuis le 09-08-2026, expire le 09-08-2027), DNS `ns11/ns12.infomaniak.ch`, enregistrements A vers GitHub Pages (185.199.108-111.153). Rien à changer. Renouvellement .fr au tarif Infomaniak (non lu). |
+| SSL | certificat GitHub, « Enforce HTTPS » déjà actif |
+| 404 | `404.html` à la racine, reconnu par Pages |
+| `.htaccess` | **ignoré** par Pages (pas d'Apache). Il ne sert que pour l'option Infomaniak. Les redirections `http`→`https` et `www`→domaine nu sont faites par Pages. |
+| Ce qui est publié | tout le dépôt, sauf ce que `_config.yml` exclut (`exclude:` de Jekyll) : `outils/`, `tests/`, `DEPLOIEMENT.md`, `GESTES-PILOTE.md`, `deployer.ps1`, `.htaccess`, `.palier/`. Sans cette liste, Jekyll publierait les `.md` en pages HTML. Le dépôt étant public, ces fichiers restent lisibles sur GitHub : **rien de privé dans le dépôt**. |
+| Hébergeur dans les mentions | GitHub Pages (GitHub, Inc.), tant que c'est la voie |
+
+**Mettre en ligne par la voie 1** :
+1. Le pilote donne les 5 mentions et tranche les 2 « à confirmer » (`GESTES-PILOTE.md`).
+2. CLANK les reporte sur `palier/refonte`, puis sur la **tête exacte** : `node outils/verifier-avant-mise-en-ligne.mjs` répond `OK`
+   (code 0) et `node --test "tests/*.test.mjs"` est vert.
+3. Le pilote dit « publie ». CLANK fusionne la PR #1 dans `main`.
+4. Contrôles : https://vtc-liberty.fr/, `/en/`, les mentions, une URL absente (404 maison), `http://` et `www.` redirigés.
+   Retour arrière : `git revert` du commit de fusion sur `main` (republication de l'ancien site en quelques minutes).
+
+## Option : Infomaniak Hébergement Web (seulement si le pilote le choisit)
+Payant (prix **non lisible** sur les pages officielles rendues en JS : https://www.infomaniak.com/fr/hebergement/web-et-mail/hebergement-web,
+ou au Manager ; essai gratuit annoncé). Intérêt : `.htaccess` (en-têtes, cache), SFTP/SSH, tout chez Infomaniak avec le domaine.
+Le domaine étant déjà chez Infomaniak, il faudrait l'hébergement dans le compte qui porte le domaine (à demander à Amir). La page
+https://www.infomaniak.com/fr/domaines annonce aussi un Starter gratuit (1 page statique, 10 Mo) avec chaque domaine : il suffirait en
+taille, mais sans SSH (envoi FTP) ; à vérifier dans ce compte. Si cette option est prise : mentions « Hébergement » à changer, `CNAME`
+et Pages à couper **après** bascule DNS, puis gestes et `deployer.ps1` ci-dessous.
+
+Autre option, non retenue : Cloudflare Pages (gratuit, mais le domaine nu impose de passer les serveurs DNS chez Cloudflare,
+https://developers.cloudflare.com/pages/configuration/custom-domains/ ; limites https://developers.cloudflare.com/pages/platform/limits/).
+Elle n'apporte rien de plus que la voie 1 déjà en place.
+
+## Option Infomaniak : sources officielles lues (22-11-2026)
 | Sujet | Page Infomaniak |
 |---|---|
 | Offres d'hébergement | https://www.infomaniak.com/en/support/faq/2019/discover-infomaniaks-web-hosting-offers |
@@ -17,41 +53,7 @@ Site statique (HTML, CSS, un peu de JS), sans PHP ni base de données. Rien n'es
 
 Vu seulement en extrait de recherche, à vérifier dans le Manager : ajout d'un site (faq/1988), Starter (faq/2002), prix (hosting/prices-and-characteristics), transfert de domaine (faq/447).
 
-## Situation au 22-11 (aucune commande passée)
-- **Taille mesurée** : 19 fichiers publiés, 343 943 octets (336 Kio). Plus gros fichier : `assets/img/logo-vtc-liberty.png`, 67 Ko.
-- **Compte Infomaniak du pilote** : un seul hébergement « Page Web basique / Starter » (10 Mo) sur `fresh-dream.fr`, sans Node.js,
-  SSL possible, accès FTP/SSH à créer. Aucun domaine VTC dans ce compte.
-- **Le domaine `vtc-liberty.fr` existe déjà** (RDAP public, https://rdap.nic.fr/domain/vtc-liberty.fr) : registrar **Infomaniak Network SA**,
-  enregistré le 09-08-2026, expire le 09-08-2027, serveurs DNS `ns11/ns12.infomaniak.ch`, enregistrements A vers GitHub Pages
-  (185.199.108-111.153). Il est donc dans **un autre compte Infomaniak, probablement celui d'Amir** : à lui demander.
-- Conséquence : pas de domaine à acheter si Amir donne accès à son compte (ou ajoute le pilote comme utilisateur du compte).
-
-## Les deux voies (coûts à vérifier, rien n'est commandé)
-
-| | (1) Infomaniak Hébergement Web | (2) Cloudflare Pages, gratuit |
-|---|---|---|
-| Hébergement | payant, prix mensuel/annuel **non lisible** sur les pages officielles (rendues en JS) : à lire sur https://www.infomaniak.com/fr/hebergement/web-et-mail/hebergement-web ou au Manager. Essai gratuit annoncé. | 0 € : 500 builds/mois, 20 000 fichiers, 25 MiB par fichier, 100 domaines par projet, pas de plafond de bande passante pour le statique ([limites](https://developers.cloudflare.com/pages/platform/limits/)) |
-| Domaine | `vtc-liberty.fr` déjà chez Infomaniak (compte d'Amir ?) : 0 € jusqu'au 09-08-2027, puis renouvellement .fr au tarif Infomaniak (**non lisible**, https://www.infomaniak.com/fr/domaines/tarifs) | le même domaine, gardé chez Infomaniak (renouvellement idem). Cloudflare Registrar : vente du .fr **non confirmée** |
-| DNS | rien à déplacer si l'hébergement est dans le même compte que le domaine | apex `vtc-liberty.fr` : **les serveurs DNS doivent passer chez Cloudflare** (zone dans le même compte que le projet). Un simple CNAME ne marche que pour `www` ([domaines](https://developers.cloudflare.com/pages/configuration/custom-domains/)) |
-| Envoi | `deployer.ps1` (SFTP) ou Git en SSH | `wrangler pages deploy` (envoi direct) ou intégration GitHub (dépôt privé) |
-| 404, redirections, en-têtes | `.htaccess` (déjà écrit) | `404.html` reconnu ([serving](https://developers.cloudflare.com/pages/configuration/serving-pages/)) ; `_redirects` et `_headers` à écrire à la place du `.htaccess` ([redirects](https://developers.cloudflare.com/pages/configuration/redirects/), [headers](https://developers.cloudflare.com/pages/configuration/headers/)) |
-| SSL | Let's Encrypt gratuit, à installer au Manager | automatique |
-| Pour | cap du 19-11 (Infomaniak), tout chez un seul fournisseur, mails possibles | gratuit, CDN mondial, déploiement depuis GitHub |
-| Contre | coût mensuel | DNS à déplacer (les mails éventuels du domaine doivent être recopiés dans la zone Cloudflare) ; un fournisseur de plus |
-
-**Piste gratuite chez Infomaniak, à vérifier** : la page https://www.infomaniak.com/fr/domaines annonce « Gratuit avec votre domaine :
-1 page web statique + 1 adresse mail starter ». Si le compte d'Amir a ce Starter (10 Mo), il suffit largement (336 Kio), à 0 €,
-mais **sans SSH** : envoi par FTP (FileZilla/WinSCP) au lieu de `deployer.ps1`, et `.htaccess` à tester. Le Starter du pilote sur
-`fresh-dream.fr` ne sert pas : un Starter est lié à son domaine (rattachement à un second domaine non confirmé).
-
-**Ordre conseillé** : demander à Amir dans quel compte Infomaniak est `vtc-liberty.fr` et s'il y a un Starter ; si oui, voie Starter
-(0 €) ; sinon (1) si le pilote accepte le prix lu au Manager, ou (2) si on accepte de déplacer les DNS. Aucune dépense sans le pilote.
-
-## Offre retenue par défaut dans ce document
-**Hébergement Web** (mutualisé) : FTP + SSH, multi-sites, `.htaccess` (Apache), Let's Encrypt gratuit, Git en SSH. Les gestes et
-`deployer.ps1` ci-dessous la supposent ; pour la voie (2), il faudra un `_redirects`/`_headers` et un envoi `wrangler`, à écrire le jour venu.
-
-## Ce qui part sur le serveur
+## Option Infomaniak : ce qui part sur le serveur
 `deployer.ps1 -Essai` en donne la liste exacte (19 fichiers, 337 Ko au 22-11). Exclus : `.git`, `.github`, `.palier`, `outils`, `tests`,
 `preuves`, `docs`, `node_modules`, `CNAME` (propre à GitHub Pages), les fichiers cachés sauf `.htaccess`, et les fichiers de travail
 (`deployer.ps1`, `DEPLOIEMENT.md`, `GESTES-PILOTE.md`).
@@ -59,7 +61,7 @@ mais **sans SSH** : envoi par FTP (FileZilla/WinSCP) au lieu de `deployer.ps1`, 
 `.htaccess` : page 404 (`ErrorDocument 404 /404.html`), pas de liste de dossiers, HTTPS forcé (règle de la FAQ 1961), `www` vers le
 domaine nu, en-têtes de sécurité et cache. Le certificat doit exister **avant** le premier envoi, sinon la redirection HTTPS casse le site.
 
-## Ordre
+## Option Infomaniak : ordre
 1. Pilote : remplir les 5 mentions (et les 2 « à confirmer »), voir `GESTES-PILOTE.md`. Puis `node outils/verifier-avant-mise-en-ligne.mjs` doit répondre `OK`.
 2. Pilote + CLANK : hébergement, site `vtc-liberty.fr`, compte « FTP + SSH », DNS, certificat (gestes dans `GESTES-PILOTE.md`).
 3. CLANK : `pwsh ./deployer.ps1 -Essai`, relire la liste, puis l'envoi réel :
@@ -82,12 +84,12 @@ passe, même liste de fichiers). Port : 22 par défaut (non écrit dans les page
 Dossier racine : la FAQ 1982/1988 parle de `/sites/<domaine>/`, la FAQ Git de `~/web/`. Lire le chemin affiché dans le Manager à l'ajout
 du site, ou `ls ~` en SSH, avant de régler `INFOMANIAK_SFTP_DOSSIER`.
 
-## Variante Git (documentée par Infomaniak, FAQ 2463)
+## Option Infomaniak : variante Git (documentée par Infomaniak, FAQ 2463)
 Dépôt nu sur le serveur (`git init --bare ~/git_depot/vtc-liberty.git`, puis `git update-server-info`), `git push` depuis ici en SSH, puis
 `git clone` / `git pull` dans le dossier du site. Inconvénient : tout le dépôt (outils, tests, `.palier`) arrive dans le dossier servi ;
 il faudrait un `.htaccess` qui les refuse. L'envoi SFTP de la liste filtrée reste la voie retenue.
 
-## Variante GitHub Actions (décrite, NON activée)
+## Option Infomaniak : variante GitHub Actions (décrite, NON activée)
 Aucun fichier n'est posé dans `.github/workflows/`. Pour l'activer plus tard, avec l'accord du pilote :
 - Secrets du dépôt (Settings > Secrets and variables > Actions) : `INFOMANIAK_SFTP_HOTE`, `INFOMANIAK_SFTP_UTILISATEUR`,
   `INFOMANIAK_SFTP_DOSSIER`, `INFOMANIAK_SFTP_CLE` (clé privée dédiée, sans phrase), `INFOMANIAK_SFTP_HOTE_CLE` (ligne `known_hosts`).

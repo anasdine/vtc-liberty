@@ -26,7 +26,7 @@ param([switch]$Essai)
 $ErrorActionPreference = 'Stop'
 $racine = $PSScriptRoot
 $exclus = @('.git', '.github', '.palier', 'node_modules', 'outils', 'tests', 'preuves', 'docs')
-$fichiersExclus = @('CNAME', 'deployer.ps1', 'DEPLOIEMENT.md', 'GESTES-PILOTE.md', 'README.md', 'package.json')
+$fichiersExclus = @('CNAME', '_config.yml', 'deployer.ps1', 'DEPLOIEMENT.md', 'GESTES-PILOTE.md', 'README.md', 'package.json')
 [Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
 
 function Write-Journal([string]$texte) { Write-Host ("[{0}] {1}" -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $texte) }

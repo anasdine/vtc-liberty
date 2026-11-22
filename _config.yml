@@ -1,0 +1,17 @@
+# GitHub Pages (constructeur legacy = Jekyll) : ce qui n'est jamais publié sur vtc-liberty.fr.
+# Garder en phase avec EXCLUS de outils/verifier-avant-mise-en-ligne.mjs (test : tests/verifier-avant-mise-en-ligne.test.mjs).
+# include: vide, sinon Jekyll publie .htaccess (liste include par défaut).
+include: []
+exclude:
+  - outils/
+  - tests/
+  - preuves/
+  - docs/
+  - node_modules/
+  - .palier/
+  - .htaccess
+  - DEPLOIEMENT.md
+  - GESTES-PILOTE.md
+  - deployer.ps1
+  - README.md
+  - package.json

@@ -1,7 +1,17 @@
-# Gestes du pilote : mise en ligne de vtc-liberty.fr chez Infomaniak
+# Gestes du pilote : mise en ligne de vtc-liberty.fr
 
-À faire ensemble avec CLANK. Aucun geste ici n'est fait sans toi : commande, DNS, certificat, envoi.
-Les libellés de menus viennent de la doc officielle (en anglais) ; le Manager en français peut les nommer un peu autrement.
+À faire ensemble avec CLANK. Aucun geste ici n'est fait sans toi.
+
+**Important** : le site est déjà en ligne par GitHub Pages, servi depuis la branche `main` du dépôt (public). **Fusionner la PR #1,
+c'est publier le nouveau site aussitôt.** CLANK ne fusionne que sur ton « publie », et seulement quand la garde répond OK.
+
+## Voie 1 (en place, gratuite) : GitHub Pages
+Rien à commander, rien à changer au DNS ni au certificat.
+1. Tu donnes les 5 informations ci-dessous (section A) et tu tranches les 2 « à confirmer ».
+2. CLANK les reporte dans les mentions, rejoue la garde et les tests sur la tête exacte de la PR.
+3. Tu relis le site de la PR (captures ou serveur local que CLANK t'ouvre), puis tu dis « publie ».
+4. CLANK fusionne ; quelques minutes plus tard, tu ouvres https://vtc-liberty.fr/ sur ton téléphone : accueil, EN, mentions, bouton Appeler.
+   En cas de souci : CLANK annule la fusion (`git revert`), l'ancien site revient.
 
 ## A. Les 5 informations à donner (obligatoires, mentions légales)
 1. **Nom de famille d'Amir** (éditeur et directeur de la publication).
@@ -13,14 +23,14 @@ Les libellés de menus viennent de la doc officielle (en anglais) ; le Manager e
 À confirmer aussi (sinon on retire la phrase) : le délai « généralement sous une heure » ; la durée Colmar → Zurich (sinon « sur devis » reste, sans marque).
 Tant qu'un de ces points manque, `node outils/verifier-avant-mise-en-ligne.mjs` refuse et rien ne part.
 
-## B0. Avant tout : demander à Amir
-- `vtc-liberty.fr` est **déjà enregistré chez Infomaniak** (RDAP public : depuis le 09-08-2026, expire le 09-08-2027), mais pas dans ton
-  compte (le tien n'a que le Starter de `fresh-dream.fr`). Il est sans doute dans le compte d'Amir.
-- Lui demander : dans quel compte est le domaine, s'il y a un Starter gratuit avec, et s'il t'ajoute comme utilisateur du compte (pas de mot de passe partagé).
-- Le choix de la voie (Starter gratuit, Hébergement Web payant, ou Cloudflare Pages gratuit) est dans `DEPLOIEMENT.md`, section « Les deux voies ».
-  Les gestes ci-dessous suivent la voie Hébergement Web, dans le compte qui porte le domaine.
+## Option Infomaniak (seulement si tu la choisis à la place de la voie 1)
+- `vtc-liberty.fr` est déjà enregistré chez Infomaniak (RDAP public : depuis le 09-08-2026, expire le 09-08-2027), dans le compte
+  qui porte le domaine (sans doute celui d'Amir) : l'hébergement devrait être dans ce même compte. Lui demander s'il t'y ajoute comme
+  utilisateur (pas de mot de passe partagé) et s'il y a déjà un Starter gratuit lié au domaine.
+- Coûts et comparaison : `DEPLOIEMENT.md`, section « Option : Infomaniak ». Rien n'est commandé sans toi.
+- Si tu la prends : la ligne « Hébergement » des mentions change, et GitHub Pages n'est coupé qu'**après** la bascule DNS.
 
-## B. Dans le Manager Infomaniak (https://manager.infomaniak.com)
+## Option Infomaniak : dans le Manager (https://manager.infomaniak.com)
 
 ### 1. Créer l'hébergement
 - Commander un **Hébergement Web** (pas le Starter : pas de SSH). Le prix s'affiche à la commande : tu décides, rien n'est payé sans toi.
@@ -56,10 +66,11 @@ lecture publique, rien changé. Si l'hébergement est dans le même compte que l
 - CLANK lance `pwsh ./deployer.ps1 -Essai`, tu valides la liste, puis l'envoi réel (voir `DEPLOIEMENT.md`).
 - Tu ouvres https://vtc-liberty.fr/ sur ton téléphone : accueil, EN, mentions légales, bouton Appeler.
 
-## C. Ce que tu donnes à CLANK, en résumé
+## Ce que tu donnes à CLANK, en résumé
 | Quoi | Où le trouver |
 |---|---|
 | Les 5 mentions (+ 2 à confirmer) | toi / Amir |
+| Ton « publie » (voie 1) | après relecture du site de la PR |
 | Hôte SFTP, nom du compte | Manager > hébergement > FTP / SSH |
 | Dossier du site | Manager > ajout du site (options avancées) |
 | Choix DNS (registrar actuel ou DNS Infomaniak) | chez le registrar du domaine |

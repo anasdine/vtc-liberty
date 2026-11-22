@@ -66,3 +66,12 @@ test('les dossiers internes ne sont pas inspectés', () => {
   const pub = fichiersPublies(RACINE).map((f) => f.split(sep).join('/'));
   assert.ok(!pub.some((f) => /\/(\.palier|outils|tests|preuves|docs)\//.test(f)));
 });
+
+test('_config.yml (Jekyll, GitHub Pages) exclut les dossiers internes et les fichiers de travail', async () => {
+  const { EXCLUS } = await import('../outils/verifier-avant-mise-en-ligne.mjs');
+  const cfg = readFileSync(join(RACINE, '_config.yml'), 'utf8');
+  const exclus = [...cfg.matchAll(/^  - (.+)$/gm)].map((m) => m[1].trim().replace(/\/$/, ''));
+  assert.match(cfg, /^include: \[\]$/m);
+  for (const d of EXCLUS) if (d !== '.git' && d !== '.github') assert.ok(exclus.includes(d), d);
+  for (const f of ['.htaccess', 'DEPLOIEMENT.md', 'GESTES-PILOTE.md', 'deployer.ps1']) assert.ok(exclus.includes(f), f);
+});
