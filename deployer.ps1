@@ -90,7 +90,7 @@ try {
   if ($env:INFOMANIAK_SFTP_CLE) { $sftpArgs += @('-i', $env:INFOMANIAK_SFTP_CLE) }
   $sftpArgs += "$($env:INFOMANIAK_SFTP_UTILISATEUR)@$($env:INFOMANIAK_SFTP_HOTE)"
   Write-Journal "Envoi vers $($env:INFOMANIAK_SFTP_HOTE):$dossierDistant"
-  & sftp @args
+  & sftp @sftpArgs
   if ($LASTEXITCODE -ne 0) { Write-Journal "sftp : échec (code $LASTEXITCODE)"; exit $LASTEXITCODE }
   Write-Journal 'Envoi terminé. Vérifier https://vtc-liberty.fr/ puis /404-test (page 404).'
 } finally { Remove-Item -LiteralPath $fichierLot -Force -ErrorAction SilentlyContinue }
