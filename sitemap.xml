@@ -2,10 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url><loc>https://vtc-liberty.fr/</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/"/></url>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vtc-liberty.fr/"/></url>
   <url><loc>https://vtc-liberty.fr/en/</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/"/></url>
-  <url><loc>https://vtc-liberty.fr/mentions-legales.html</loc></url>
-  <url><loc>https://vtc-liberty.fr/en/legal-notice.html</loc></url>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vtc-liberty.fr/"/></url>
+  <url><loc>https://vtc-liberty.fr/mentions-legales.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/mentions-legales.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/legal-notice.html"/></url>
+  <url><loc>https://vtc-liberty.fr/en/legal-notice.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/mentions-legales.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/legal-notice.html"/></url>
 </urlset>

@@ -1,0 +1,35 @@
+# VTC Liberty, hébergement Web Infomaniak (Apache).
+# Doc : https://www.infomaniak.com/en/support/faq/2210/create-and-use-a-htaccess-file-and-userini
+#       https://www.infomaniak.com/en/support/faq/1961/force-https-ssl-for-the-url-displayed-by-the-web-browser
+
+ErrorDocument 404 /404.html
+Options -Indexes
+AddDefaultCharset utf-8
+
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  # HTTPS forcé : le certificat Let's Encrypt doit être installé AVANT le premier envoi (GESTES-PILOTE.md, étape 4).
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule (.*) https://vtc-liberty.fr/$1 [R=301,L]
+  # www vers le domaine nu.
+  RewriteCond %{HTTP_HOST} ^www\.vtc-liberty\.fr$ [NC]
+  RewriteRule (.*) https://vtc-liberty.fr/$1 [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive on
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+</IfModule>
