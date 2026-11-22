@@ -13,6 +13,13 @@ Les libellés de menus viennent de la doc officielle (en anglais) ; le Manager e
 À confirmer aussi (sinon on retire la phrase) : le délai « généralement sous une heure » ; la durée Colmar → Zurich (sinon « sur devis » reste, sans marque).
 Tant qu'un de ces points manque, `node outils/verifier-avant-mise-en-ligne.mjs` refuse et rien ne part.
 
+## B0. Avant tout : demander à Amir
+- `vtc-liberty.fr` est **déjà enregistré chez Infomaniak** (RDAP public : depuis le 09-08-2026, expire le 09-08-2027), mais pas dans ton
+  compte (le tien n'a que le Starter de `fresh-dream.fr`). Il est sans doute dans le compte d'Amir.
+- Lui demander : dans quel compte est le domaine, s'il y a un Starter gratuit avec, et s'il t'ajoute comme utilisateur du compte (pas de mot de passe partagé).
+- Le choix de la voie (Starter gratuit, Hébergement Web payant, ou Cloudflare Pages gratuit) est dans `DEPLOIEMENT.md`, section « Les deux voies ».
+  Les gestes ci-dessous suivent la voie Hébergement Web, dans le compte qui porte le domaine.
+
 ## B. Dans le Manager Infomaniak (https://manager.infomaniak.com)
 
 ### 1. Créer l'hébergement
@@ -26,8 +33,8 @@ Tant qu'un de ces points manque, `node outils/verifier-avant-mise-en-ligne.mjs` 
 - Doc (vue en extrait) : https://www.infomaniak.com/en/support/faq/1988/add-a-site-to-a-web-hosting
 
 ### 3. DNS du domaine
-Où est enregistré vtc-liberty.fr aujourd'hui ? Au 22-11, le domaine pointe vers **GitHub Pages** (A : 185.199.108.153, .109, .110, .111 ; lecture DNS publique, rien changé).
-Le registrar est à lire dans ton compte (le DNS ne le dit pas).
+Au 22-11 : registrar Infomaniak, DNS `ns11/ns12.infomaniak.ch`, enregistrements A vers **GitHub Pages** (185.199.108.153, .109, .110, .111) ;
+lecture publique, rien changé. Si l'hébergement est dans le même compte que le domaine, Infomaniak peut mettre la zone à jour seul.
 - **Domaine ailleurs, on garde le registrar** : chez lui, remplacer les enregistrements A (et CNAME `www`) par l'IP du site Infomaniak.
 - **Ou** passer aux serveurs DNS Infomaniak : il faut alors une zone DNS commandée chez Infomaniak (changer les NS seuls ne suffit pas).
 - Propagation : jusqu'à 48 h. Le site actuel reste servi par l'ancien hôte pendant ce temps.

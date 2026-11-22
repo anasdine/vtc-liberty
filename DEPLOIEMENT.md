@@ -17,11 +17,39 @@ Site statique (HTML, CSS, un peu de JS), sans PHP ni base de données. Rien n'es
 
 Vu seulement en extrait de recherche, à vérifier dans le Manager : ajout d'un site (faq/1988), Starter (faq/2002), prix (hosting/prices-and-characteristics), transfert de domaine (faq/447).
 
-## Offre
-**Hébergement Web** (mutualisé) : FTP + SSH, multi-sites, `.htaccess` (Apache), Let's Encrypt gratuit, Git en SSH.
-Le **Starter** gratuit (HTML seul, 10 Mo) suffirait en taille (le site pèse 337 Ko), mais il n'a pas de SSH et, d'après la recherche
-(non confirmé sur page ouverte), il exige un domaine enregistré chez Infomaniak. Prix : à lire dans le Manager au moment de commander ;
-aucune dépense sans l'accord du pilote.
+## Situation au 22-11 (aucune commande passée)
+- **Taille mesurée** : 19 fichiers publiés, 343 943 octets (336 Kio). Plus gros fichier : `assets/img/logo-vtc-liberty.png`, 67 Ko.
+- **Compte Infomaniak du pilote** : un seul hébergement « Page Web basique / Starter » (10 Mo) sur `fresh-dream.fr`, sans Node.js,
+  SSL possible, accès FTP/SSH à créer. Aucun domaine VTC dans ce compte.
+- **Le domaine `vtc-liberty.fr` existe déjà** (RDAP public, https://rdap.nic.fr/domain/vtc-liberty.fr) : registrar **Infomaniak Network SA**,
+  enregistré le 09-08-2026, expire le 09-08-2027, serveurs DNS `ns11/ns12.infomaniak.ch`, enregistrements A vers GitHub Pages
+  (185.199.108-111.153). Il est donc dans **un autre compte Infomaniak, probablement celui d'Amir** : à lui demander.
+- Conséquence : pas de domaine à acheter si Amir donne accès à son compte (ou ajoute le pilote comme utilisateur du compte).
+
+## Les deux voies (coûts à vérifier, rien n'est commandé)
+
+| | (1) Infomaniak Hébergement Web | (2) Cloudflare Pages, gratuit |
+|---|---|---|
+| Hébergement | payant, prix mensuel/annuel **non lisible** sur les pages officielles (rendues en JS) : à lire sur https://www.infomaniak.com/fr/hebergement/web-et-mail/hebergement-web ou au Manager. Essai gratuit annoncé. | 0 € : 500 builds/mois, 20 000 fichiers, 25 MiB par fichier, 100 domaines par projet, pas de plafond de bande passante pour le statique ([limites](https://developers.cloudflare.com/pages/platform/limits/)) |
+| Domaine | `vtc-liberty.fr` déjà chez Infomaniak (compte d'Amir ?) : 0 € jusqu'au 09-08-2027, puis renouvellement .fr au tarif Infomaniak (**non lisible**, https://www.infomaniak.com/fr/domaines/tarifs) | le même domaine, gardé chez Infomaniak (renouvellement idem). Cloudflare Registrar : vente du .fr **non confirmée** |
+| DNS | rien à déplacer si l'hébergement est dans le même compte que le domaine | apex `vtc-liberty.fr` : **les serveurs DNS doivent passer chez Cloudflare** (zone dans le même compte que le projet). Un simple CNAME ne marche que pour `www` ([domaines](https://developers.cloudflare.com/pages/configuration/custom-domains/)) |
+| Envoi | `deployer.ps1` (SFTP) ou Git en SSH | `wrangler pages deploy` (envoi direct) ou intégration GitHub (dépôt privé) |
+| 404, redirections, en-têtes | `.htaccess` (déjà écrit) | `404.html` reconnu ([serving](https://developers.cloudflare.com/pages/configuration/serving-pages/)) ; `_redirects` et `_headers` à écrire à la place du `.htaccess` ([redirects](https://developers.cloudflare.com/pages/configuration/redirects/), [headers](https://developers.cloudflare.com/pages/configuration/headers/)) |
+| SSL | Let's Encrypt gratuit, à installer au Manager | automatique |
+| Pour | cap du 19-11 (Infomaniak), tout chez un seul fournisseur, mails possibles | gratuit, CDN mondial, déploiement depuis GitHub |
+| Contre | coût mensuel | DNS à déplacer (les mails éventuels du domaine doivent être recopiés dans la zone Cloudflare) ; un fournisseur de plus |
+
+**Piste gratuite chez Infomaniak, à vérifier** : la page https://www.infomaniak.com/fr/domaines annonce « Gratuit avec votre domaine :
+1 page web statique + 1 adresse mail starter ». Si le compte d'Amir a ce Starter (10 Mo), il suffit largement (336 Kio), à 0 €,
+mais **sans SSH** : envoi par FTP (FileZilla/WinSCP) au lieu de `deployer.ps1`, et `.htaccess` à tester. Le Starter du pilote sur
+`fresh-dream.fr` ne sert pas : un Starter est lié à son domaine (rattachement à un second domaine non confirmé).
+
+**Ordre conseillé** : demander à Amir dans quel compte Infomaniak est `vtc-liberty.fr` et s'il y a un Starter ; si oui, voie Starter
+(0 €) ; sinon (1) si le pilote accepte le prix lu au Manager, ou (2) si on accepte de déplacer les DNS. Aucune dépense sans le pilote.
+
+## Offre retenue par défaut dans ce document
+**Hébergement Web** (mutualisé) : FTP + SSH, multi-sites, `.htaccess` (Apache), Let's Encrypt gratuit, Git en SSH. Les gestes et
+`deployer.ps1` ci-dessous la supposent ; pour la voie (2), il faudra un `_redirects`/`_headers` et un envoi `wrangler`, à écrire le jour venu.
 
 ## Ce qui part sur le serveur
 `deployer.ps1 -Essai` en donne la liste exacte (19 fichiers, 337 Ko au 22-11). Exclus : `.git`, `.github`, `.palier`, `outils`, `tests`,
