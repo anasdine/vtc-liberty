@@ -6,13 +6,15 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative, resolve, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// Marques interdites en ligne (FR et EN), insensibles à la casse.
+// Marques interdites en ligne (FR, EN et DE), insensibles à la casse.
 export const MARQUES = [
   /à compléter/i,
   /a completer/i,
   /à confirmer/i,
   /to be completed/i,
   /to be confirmed/i,
+  /zu ergänzen/i,
+  /zu bestätigen/i,
   /class="[^"]*\btodo\b[^"]*"/i,
 ];
 

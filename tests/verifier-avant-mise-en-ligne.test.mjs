@@ -31,7 +31,7 @@ test('la version actuelle est refusée, avec fichier et ligne', () => {
   const refus = verifier(RACINE);
   assert.ok(refus.length > 0);
   const fichiers = new Set(refus.map((r) => r.fichier));
-  for (const f of ['mentions-legales.html', 'en/legal-notice.html', 'index.html', 'en/index.html']) assert.ok(fichiers.has(f), f);
+  for (const f of ['mentions-legales.html', 'en/legal-notice.html', 'de/impressum.html', 'index.html', 'en/index.html', 'de/index.html']) assert.ok(fichiers.has(f), f);
   for (const r of refus) assert.ok(Number.isInteger(r.ligne) && r.ligne > 0);
   const r = spawnSync(process.execPath, [SCRIPT, RACINE], { encoding: 'utf8' });
   assert.equal(r.status, 1);
@@ -73,5 +73,31 @@ test('_config.yml (Jekyll, GitHub Pages) exclut les dossiers internes et les fic
   const exclus = [...cfg.matchAll(/^  - (.+)$/gm)].map((m) => m[1].trim().replace(/\/$/, ''));
   assert.match(cfg, /^include: \[\]$/m);
   for (const d of EXCLUS) if (d !== '.git' && d !== '.github') assert.ok(exclus.includes(d), d);
-  for (const f of ['.htaccess', 'DEPLOIEMENT.md', 'GESTES-PILOTE.md', 'deployer.ps1']) assert.ok(exclus.includes(f), f);
+  for (const f of ['.htaccess', 'DEPLOIEMENT.md', 'GESTES-PILOTE.md', 'CREDITS.md', 'deployer.ps1']) assert.ok(exclus.includes(f), f);
+});
+
+test('« zu ergänzen » (allemand) suffit à refuser, même hors balise todo', () => {
+  const d = copieDuSite();
+  try {
+    remplirDeFaussesValeurs(d);
+    const f = join(d, 'de', 'impressum.html');
+    writeFileSync(f, readFileSync(f, 'utf8') + '\n<p>Nachname: zu ergänzen</p>\n');
+    const refus = verifier(d);
+    assert.equal(refus.length, 1);
+    assert.equal(refus[0].fichier, 'de/impressum.html');
+  } finally { rmSync(d, { recursive: true, force: true }); }
+});
+
+test('chaque page a ses trois hreflang (fr, en, de) et x-default, réciproques avec le sitemap', () => {
+  const pages = { 'index.html': '/', 'en/index.html': '/en/', 'de/index.html': '/de/', 'mentions-legales.html': '/mentions-legales.html', 'en/legal-notice.html': '/en/legal-notice.html', 'de/impressum.html': '/de/impressum.html' };
+  const sitemap = readFileSync(join(RACINE, 'sitemap.xml'), 'utf8');
+  for (const [f, u] of Object.entries(pages)) {
+    const t = readFileSync(join(RACINE, f), 'utf8');
+    for (const h of ['fr', 'en', 'de', 'x-default']) assert.ok(t.includes(`<link rel="alternate" hreflang="${h}" href="https://vtc-liberty.fr/`), `${f} ${h}`);
+    assert.ok(t.includes(`<link rel="canonical" href="https://vtc-liberty.fr${u}">`), f);
+    assert.ok(sitemap.includes(`<loc>https://vtc-liberty.fr${u}</loc>`), `sitemap ${u}`);
+  }
+  const blocs = sitemap.split('<url>').slice(1);
+  assert.equal(blocs.length, 6);
+  for (const b of blocs) for (const h of ['fr', 'en', 'de', 'x-default']) assert.ok(b.includes(`hreflang="${h}"`), `sitemap ${h} : ${b.slice(0, 60)}`);
 });
