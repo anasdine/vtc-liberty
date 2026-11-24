@@ -3,15 +3,31 @@
   <url><loc>https://vtc-liberty.fr/</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://vtc-liberty.fr/de/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://vtc-liberty.fr/"/></url>
   <url><loc>https://vtc-liberty.fr/en/</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://vtc-liberty.fr/de/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vtc-liberty.fr/"/></url>
+  <url><loc>https://vtc-liberty.fr/de/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://vtc-liberty.fr/de/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://vtc-liberty.fr/"/></url>
   <url><loc>https://vtc-liberty.fr/mentions-legales.html</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/mentions-legales.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/legal-notice.html"/></url>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/legal-notice.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://vtc-liberty.fr/de/impressum.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vtc-liberty.fr/mentions-legales.html"/></url>
   <url><loc>https://vtc-liberty.fr/en/legal-notice.html</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/mentions-legales.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/legal-notice.html"/></url>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/legal-notice.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://vtc-liberty.fr/de/impressum.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vtc-liberty.fr/mentions-legales.html"/></url>
+  <url><loc>https://vtc-liberty.fr/de/impressum.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://vtc-liberty.fr/mentions-legales.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vtc-liberty.fr/en/legal-notice.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://vtc-liberty.fr/de/impressum.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vtc-liberty.fr/mentions-legales.html"/></url>
 </urlset>

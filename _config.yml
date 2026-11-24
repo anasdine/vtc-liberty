@@ -12,6 +12,7 @@ exclude:
   - .htaccess
   - DEPLOIEMENT.md
   - GESTES-PILOTE.md
+  - CREDITS.md
   - deployer.ps1
   - README.md
   - package.json
