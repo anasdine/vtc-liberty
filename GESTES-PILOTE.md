@@ -5,6 +5,13 @@
 **Important** : le site est déjà en ligne par GitHub Pages, servi depuis la branche `main` du dépôt (public). **Fusionner la PR #1,
 c'est publier le nouveau site aussitôt.** CLANK ne fusionne que sur ton « publie », et seulement quand la garde répond OK.
 
+## État au 24-11-2026 (publié sur le « publie » du pilote)
+- Rempli d'après l'annuaire officiel (recherche-entreprises.api.gouv.fr) et societe.com : nom **Amir Djebli**, SIREN 878 126 150, SIRET du siège 878 126 150 00027, 3 rue d'Arras 68000 Colmar, nom commercial VTC LIBERTY.
+- **Retirés en attendant Amir** (rien d'inventé) : numéro EVTC, TVA, assurance RC pro, médiateur de la consommation (section retirée). À rajouter dès réception, dans les 3 langues.
+- TVA : societe.com affiche FR82878126150, mais c'est un numéro calculé depuis le SIREN ; VIES était saturé le 24-11, donc rien n'est publié tant qu'Amir ne confirme pas (numéro actif, ou « TVA non applicable, art. 293 B du CGI »).
+- Retiré : « réponse généralement sous une heure » (non confirmé). Zurich reste « sur devis ».
+- Le site est statique : il n'a pas de page d'administration. Les mentions se changent dans le dépôt.
+
 ## Voie 1 (en place, gratuite) : GitHub Pages
 Rien à commander, rien à changer au DNS ni au certificat.
 1. Tu donnes les 5 informations ci-dessous (section A) et tu tranches les 2 « à confirmer ».

@@ -27,16 +27,11 @@ function remplirDeFaussesValeurs(d) {
   }
 }
 
-test('la version actuelle est refusée, avec fichier et ligne', () => {
-  const refus = verifier(RACINE);
-  assert.ok(refus.length > 0);
-  const fichiers = new Set(refus.map((r) => r.fichier));
-  for (const f of ['mentions-legales.html', 'en/legal-notice.html', 'de/impressum.html', 'index.html', 'en/index.html', 'de/index.html']) assert.ok(fichiers.has(f), f);
-  for (const r of refus) assert.ok(Number.isInteger(r.ligne) && r.ligne > 0);
+test('la version actuelle (mentions remplies le 24-11-2026) est acceptée', () => {
+  assert.deepEqual(verifier(RACINE), []);
   const r = spawnSync(process.execPath, [SCRIPT, RACINE], { encoding: 'utf8' });
-  assert.equal(r.status, 1);
-  assert.match(r.stderr, /REFUS/);
-  assert.match(r.stderr, /mentions-legales\.html:\d+/);
+  assert.equal(r.status, 0);
+  assert.match(r.stdout, /^OK/);
 });
 
 test('une copie remplie de fausses valeurs est acceptée', () => {
